@@ -8,12 +8,16 @@ function App() {
   const initialURL = "https://pokeapi.co/api/v2/pokemon"
   const [loading, setLoading] = useState(true);
   const [pokemonData, setPokemonData] = useState([])
+  const [nextURL, setNextURL] = useState("");
+  const [prevURL, setPrevURL] = useState("");
 
   useEffect(() => {
     const fetchPokemonData = async () => {
       let res = await getAllPokemon(initialURL);
       loadPokemon(res.results);
       console.log(res.results);
+      setNextURL(res.next)
+      setPrevURL(res.previous)
       setLoading(false);
     };
     fetchPokemonData();
@@ -31,8 +35,25 @@ function App() {
 
   console.log(pokemonData)
 
-  const handleNextPage = () => { }
-  const handlePrevPage = () => { }
+  const handleNextPage = async () => {
+    setLoading(true);
+    let data = await getAllPokemon(nextURL);
+    await loadPokemon(data.results);
+    setNextURL(data.next);
+    setPrevURL(data.previous);
+    setLoading(false);
+  }
+
+  const handlePrevPage = async () => {
+    if (!prevURL) return;
+
+    setLoading(true);
+    let data = await getAllPokemon(prevURL);
+    await loadPokemon(data.results);
+    setNextURL(data.next);
+    setPrevURL(data.previous);
+    setLoading(false);
+  }
 
   return (
     <div>
