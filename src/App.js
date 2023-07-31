@@ -31,6 +31,9 @@ function App() {
 
   console.log(pokemonData)
 
+  const handleNextPage = () => { }
+  const handlePrevPage = () => { }
+
   return (
     <div>
       <Navbar />
@@ -44,6 +47,10 @@ function App() {
             })}
           </div>
         )}
+      </div>
+      <div className='btn'>
+        <button onClick={handlePrevPage}>Prev</button>
+        <button onClick={handleNextPage}>Next</button>
       </div>
     </div>
   )
